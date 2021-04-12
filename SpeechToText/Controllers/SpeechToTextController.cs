@@ -24,9 +24,6 @@ namespace SpeechToText.Controllers
         [HttpGet]
         public ActionResult Index(string audioName)
         {
-           
-
-
             return View();
         }
 

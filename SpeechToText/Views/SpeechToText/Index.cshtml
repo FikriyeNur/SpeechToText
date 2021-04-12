@@ -33,8 +33,16 @@
             <br />  <br />
             <button type="button" class="btn btn-w-m btn-success btn-md">Start</button>
             <button type="button" class="btn btn-w-m btn-primary btn-md" onclick="location.href = '@Url.Action("Stop")'">Stop</button>
-            <br />  <br />
-            <input type="text" size="50" height="50" disabled>
+            <select name="language" id="language">
+                <option value="none" selected disabled hidden>
+                    Select an Language
+                </option>
+                <option value="Turkish">Turkish</option>
+                <option value="English">English</option>
+                <option value="Korean">Korean</option>
+            </select>
+            <br />  <br />  <br />  <br />
+            <input type="text" style="width:300px; height:150px;" disabled>
         </div>
     </form>
 
