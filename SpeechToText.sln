@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToText", "SpeechToText\SpeechToText.csproj", "{2F96A9D3-B146-4789-9067-9D253781CBCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToTextForm", "SpeechToTextForm\SpeechToTextForm.csproj", "{D5C9C5CA-CAF4-4DB3-BA41-354C75FC3485}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F96A9D3-B146-4789-9067-9D253781CBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F96A9D3-B146-4789-9067-9D253781CBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F96A9D3-B146-4789-9067-9D253781CBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F96A9D3-B146-4789-9067-9D253781CBCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5C9C5CA-CAF4-4DB3-BA41-354C75FC3485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5C9C5CA-CAF4-4DB3-BA41-354C75FC3485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5C9C5CA-CAF4-4DB3-BA41-354C75FC3485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5C9C5CA-CAF4-4DB3-BA41-354C75FC3485}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21910E42-2A1A-4041-BCA7-A3D2DDC5E47C}
+	EndGlobalSection
+EndGlobal
