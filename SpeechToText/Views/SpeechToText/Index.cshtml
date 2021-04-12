@@ -2,19 +2,45 @@
 @{
     ViewBag.Title = "Index";
 }
-<div class="col-md-3">
+<!--<script type="text/javascript" src="http://wwww.google.com/jsapi"></script>
+
+<div class="col-md-6 btn-group">
     <br />
     <br />
     <button type="button" class="btn btn-w-m btn-success btn-md">Start</button>
-    <br />
-    <br />
     <button type="button" class="btn btn-w-m btn-primary btn-md">Stop</button>
     <br />
     <br />
-</div>
-
-<br />
-<br />
-<div class="col-md-3">
+    <br />
     <input type="text" size="50" height="50" disabled>
-</div>
+<input type="file" accept="audio/*;capture=microphone">-->
+<!--</div>-->
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+</head>
+<body>
+    <form id="form">
+        <div>
+            <audio id="audio"></audio>
+        </div>
+        <div>
+            <br />  <br />
+            <button type="button" class="btn btn-w-m btn-success btn-md">Start</button>
+            <button type="button" class="btn btn-w-m btn-primary btn-md" onclick="location.href = '@Url.Action("Stop")'">Stop</button>
+            <br />  <br />
+            <input type="text" size="50" height="50" disabled>
+        </div>
+    </form>
+
+
+
+</body>
+
+</html>
+

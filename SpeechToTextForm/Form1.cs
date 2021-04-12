@@ -46,7 +46,7 @@ namespace SpeechToTextForm
             cmbLanguage.DisplayMember = "Name";
             cmbLanguage.ValueMember = "Code";
 
-            if (NAudio.Wave.WaveIn.DeviceCount < 1)
+            if (WaveIn.DeviceCount < 1)
             {
                 MessageBox.Show("An active microphone wasn't found.", "Microphone can't connected.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
