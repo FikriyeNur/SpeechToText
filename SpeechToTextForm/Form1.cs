@@ -16,22 +16,12 @@ namespace SpeechToTextForm
         WaveOut waveOut;
         WaveFileWriter writer;
         WaveFileReader reader;
-        string output = "audio.mp3";
+        string output = "audio.raw";
         public List<Language> languageList;
 
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private void LoadWave()
-        {
-            waveOut = new WaveOut();
-            waveIn = new WaveIn();
-            waveIn.DataAvailable += new EventHandler<WaveInEventArgs>(waveIn_DataAvailable);
-            waveIn.WaveFormat = new NAudio.Wave.WaveFormat(16000, 1);
-            bwp = new BufferedWaveProvider(waveIn.WaveFormat);
-            bwp.DiscardOnBufferOverflow = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -46,7 +36,7 @@ namespace SpeechToTextForm
             cmbLanguage.DisplayMember = "Name";
             cmbLanguage.ValueMember = "Code";
 
-            if (WaveIn.DeviceCount < 1)
+            if (NAudio.Wave.WaveIn.DeviceCount < 1)
             {
                 MessageBox.Show("An active microphone wasn't found.", "Microphone can't connected.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -64,11 +54,15 @@ namespace SpeechToTextForm
             waveIn.StartRecording();
 
             process();
+            //Thread.Sleep(3000);
+
+            //backgroundWorker1.RunWorkerAsync();
+            //btnStart.Enabled = true;
         }
 
         public async void process()
         {
-            await Task.Delay(5000);
+            await Task.Delay(5000);     
             btnStop_Click(0, null);
         }
 
@@ -82,11 +76,24 @@ namespace SpeechToTextForm
             backgroundWorker1.RunWorkerAsync();
         }
 
+        private void LoadWave()
+        {
+            waveOut = new WaveOut();
+            waveIn = new WaveIn();
+            waveIn.DataAvailable += new EventHandler<WaveInEventArgs>(waveIn_DataAvailable);
+            waveIn.WaveFormat = new NAudio.Wave.WaveFormat(16000, 1);
+            bwp = new BufferedWaveProvider(waveIn.WaveFormat);
+            bwp.DiscardOnBufferOverflow = true;
+        }
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
-            if (File.Exists("audio.mp3"))
-                File.Delete("audio.mp3");
+
+            //waveIn.StopRecording();
+
+            if (File.Exists("audio.raw"))
+                File.Delete("audio.raw");
 
             writer = new WaveFileWriter(output, waveIn.WaveFormat);
 
@@ -106,14 +113,14 @@ namespace SpeechToTextForm
             writer.Close();
             writer = null;
 
-            reader = new WaveFileReader("audio.mp3"); 
+            reader = new WaveFileReader("audio.raw"); // (new MemoryStream(bytes));
             waveOut.Init(reader);
             waveOut.PlaybackStopped += new EventHandler<StoppedEventArgs>(waveOut_PlaybackStopped);
             waveOut.Play();
 
             reader.Close();
 
-            if (File.Exists("audio.mp3"))
+            if (File.Exists("audio.raw"))
             {
 
                 var speech = SpeechClient.Create();
@@ -124,7 +131,7 @@ namespace SpeechToTextForm
                     SampleRateHertz = 16000,
                     LanguageCode = cmbLanguage.SelectedValue.ToString()
 
-                }, RecognitionAudio.FromFile("audio.mp3"));
+                }, RecognitionAudio.FromFile("audio.raw"));
 
 
                 txtRecord.Text = "";

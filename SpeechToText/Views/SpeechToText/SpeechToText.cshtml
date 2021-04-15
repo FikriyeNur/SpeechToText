@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "SpeechToText";
+}
+
+<h2>Speech To Text</h2>
+
+@*<audio id="player" controls canvas></audio>
+    <button id="stop">Stop</button>*@
+
+<script>
+    /* const player = document.getElementById('player');*/
+
+    //const handleSuccess = function (stream) {
+    //    if (window.URL) {
+    //        player.srcObject = stream;
+    //    } else {
+    //        player.src = stream;
+    //    }
+    //};
+
+    //navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+    //    .then(handleSuccess);
+</script>
+
+
+@*<script>
+        let shouldStop = false;
+        let stopped = false;
+        const stopButton = document.getElementById('stop');
+
+        stopButton.addEventListener('click', function () {
+            shouldStop = true;
+            console.log('stopButton.addEventListener', shouldStop);
+        });
+
+        const handleSuccess = function (stream) {
+          /*  player.srcObject = stream;*/
+            const options = { mimeType: 'audio/webm' };
+            const recordedChunks = [];
+            const mediaRecorder = new MediaRecorder(stream, options);
+
+            mediaRecorder.addEventListener('dataavailable', function (e) {
+                console.log('mediaRecorder.addEventListener.dataavailable', 1, mediaRecorder.state);
+                if (e.data.size > 0) {
+                    recordedChunks.push(e.data);
+                    console.log('mediaRecorder.addEventListener.dataavailable', 2, e.data.size, e.data, recordedChunks);
+                }
+
+                if (shouldStop === true && stopped === false) {
+                    console.log('mediaRecorder.addEventListener.dataavailable', 3, 'stopped');
+                    mediaRecorder.stop();
+                    stopped = true;
+                }
+            });
+
+            mediaRecorder.addEventListener('stop', function () {
+                console.log('mediaRecorder.addEventListener.stop', mediaRecorder.state);
+                //downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+                //downloadLink.download = 'acetest.wav';
+            });
+            console.log(mediaRecorder.state);
+            mediaRecorder.start();
+            console.log(mediaRecorder.state);
+        };
+
+        navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+            .then(handleSuccess);
+
+    </script>*@
+
+<canvas>
+</canvas>
+<button id="btnStart" onclick="RecordStarted()" class="btn btn-primary">Start</button>
+<button id="btnStop" onclick="RecordStopped()" class="btn btn-warning">Stop</button>
+
+<script>
+   var canvas = document.querySelector("canvas");
+
+    // Optional frames per second argument.
+    var stream = canvas.captureStream(25);
+
+    var recordedChunks = [];
+
+    console.log(stream);
+    var options = { mimeType: "audio/webm" };
+    mediaRecorder = new MediaRecorder(stream, options);
+    mediaRecorder.ondataavailable = handleDataAvailable;
+
+    function RecordStarted() {
+        if (mediaRecorder.state != 'recording') {
+            mediaRecorder.start();
+        }
+
+        //setTimeout(event => {
+        //    console.log("stopping");
+        //    mediaRecorder.stop();
+        //}, 9000);
+    }
+
+    function RecordStopped() {
+        if (mediaRecorder.state != 'inactive') {
+            mediaRecorder.stop();
+        }
+    }
+
+
+    function handleDataAvailable(event) {
+        console.log("data-available", event, recordedChunks);
+        if (event.data.size > 0) {
+            recordedChunks.push(event.data);
+            console.log(recordedChunks);
+            /*   download();*/
+        } else {
+
+        }
+    }
+    function download() {
+        var blob = new Blob(recordedChunks, {
+            type: "video/webm"
+        });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        a.href = url;
+        a.download = "test.webm";
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+
+    // demo: to download after 9sec
+
+</script>
