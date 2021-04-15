@@ -1,4 +1,5 @@
-﻿using NAudio.Wave;
+﻿using Google.Cloud.Speech.V1;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,6 @@ namespace SpeechToText.Controllers
 {
     public class SpeechToTextController : Controller
     {
-        //private BufferedWaveProvider bwp;
-        //WaveIn waveIn;
-        //WaveOut waveOut;
-        //WaveFileWriter writer;
-        //WaveFileReader reader;
-        //string output = "audio.mp3";
-
         // GET: SpeechToText
         public ActionResult Index()
         {
@@ -26,7 +20,7 @@ namespace SpeechToText.Controllers
         public ActionResult SpeechToText()
         {
             return View();
-        } 
+        }
 
 
     }
