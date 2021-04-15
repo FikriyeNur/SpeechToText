@@ -188,8 +188,12 @@ var Recorder = exports.Recorder = (function () {
             }
 
             function encodeWAV(samples) {
+
+
                 var buffer = new ArrayBuffer(44 + samples.length * 2);
                 var view = new DataView(buffer);
+
+                console.log('sampleRate', sampleRate,view);
 
                 /* RIFF identifier */
                 writeString(view, 0, 'RIFF');

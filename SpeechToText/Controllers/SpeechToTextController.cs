@@ -17,6 +17,7 @@ namespace SpeechToText.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult SpeechToText()
         {
             return View();

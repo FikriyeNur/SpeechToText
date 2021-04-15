@@ -24,12 +24,13 @@ function startRecording() {
 
     https://addpipe.com/blog/audio-constraints-getusermedia/ */
 
+
     audioContext = new AudioContext;
 
     var constraints = {
         audio: true,
         video: false
-    } 
+    }
     /* Disable the record button until we get a success or fail from getUserMedia() */
 
     recordButton.disabled = true;
@@ -40,8 +41,8 @@ function startRecording() {
 
     https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia */
 
-    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-        console.log("getUserMedia() success, stream created, initializing Recorder.js ..."); 
+    navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+        console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
         /* assign to gumStream for later use */
         gumStream = stream;
         /* use the stream */
@@ -49,11 +50,11 @@ function startRecording() {
         /* Create the Recorder object and configure to record mono sound (1 channel) Recording 2 channels will double the file size */
         rec = new Recorder(input, {
             numChannels: 1
-        }) 
+        })
         //start the recording process 
         rec.record()
         console.log("Recording started");
-    }).catch(function(err) {
+    }).catch(function (err) {
         //enable the record button if getUserMedia() fails 
         recordButton.disabled = false;
         stopButton.disabled = true;
@@ -87,6 +88,8 @@ function stopRecording() {
     gumStream.getAudioTracks()[0].stop();
     //create the wav blob and pass it on to createDownloadLink 
     rec.exportWAV(createDownloadLink);
+    //var bufferResult = rec.getBuffer(createDownloadLink);
+    //console.log('bufferResult', bufferResult);
 }
 
 
@@ -116,30 +119,39 @@ function createDownloadLink(blob) {
     var upload = document.createElement('a');
     upload.href = "#";
     upload.innerHTML = "Upload";
-    upload.addEventListener("click", function(event) {
-        var xhr = new XMLHttpRequest();
-        var url = "https://speech.googleapis.com/v1p1beta1/speech:recognize?key=SOME_KEY";
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var json = JSON.parse(xhr.responseText);
-                console.log(json.email + ", " + json.password);
-            }
-        };
+    upload.addEventListener("click", function (event) {
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+            var base64data = reader.result.replace('data:audio/wav;base64,','');
+            var xhr = new XMLHttpRequest();
+            var url = "https://speech.googleapis.com/v1p1beta1/speech:recognize?key=AIzaSyCjwLW9i2YOas1oATOZfkKDkEHC7difAvs";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('apiResult').innerHTML = xhr.responseText;
+                } 
+            };
 
-    
-        var data = JSON.stringify(  {
-            "audio": {
-              "content": blob.toString('base64')
-            },
-            "config": {
-              "sampleRateHertz": 16000,
-              "encoding": "LINEAR16",
-              "languageCode": "en-US"
-            }
-          });
-        xhr.send(data);
+            var data = JSON.stringify(
+                {
+                    "audio": {
+                        "content": base64data
+                        //"uri": URL.createObjectURL(blob)
+                    },
+                    "config": {
+                        "sampleRateHertz": 48000,
+                        "enableAutomaticPunctuation": true,
+                        "encoding": "LINEAR16",
+                        "languageCode": "tr",
+                        "model": "default"
+                    }
+                });
+            xhr.send(data);
+        }
+
+
     })
     li.appendChild(document.createTextNode(" ")) //add a space in between 
     li.appendChild(upload) //add the upload link to li
